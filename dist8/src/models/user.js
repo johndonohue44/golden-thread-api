@@ -18,33 +18,35 @@ let User = class User extends repository_1.Entity {
 __decorate([
     repository_1.property({
         type: 'number',
-        id: true,
+        id: true
     }),
     __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
 __decorate([
     repository_1.property({
         type: 'string',
+        required: true
     }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], User.prototype, "firstname", void 0);
 __decorate([
     repository_1.property({
         type: 'string',
+        required: true
     }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], User.prototype, "lastname", void 0);
 __decorate([
     repository_1.property({
         type: 'string',
-        required: true,
+        required: true
     }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
     repository_1.property({
         type: 'string',
-        required: true,
+        required: true
     }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);

@@ -1,13 +1,13 @@
 import { repository } from "@loopback/repository";
-import { post, get, requestBody } from "@loopback/rest";
+import { post, get, requestBody, HttpErrors } from "@loopback/rest";
 import { UserRepository } from "../repositories/user.repository";
 import { User } from "../models/user";
-import { HttpErrors } from '@loopback/rest';
 
 export class LoginController {
+
   constructor(
-    @repository(UserRepository) protected userRepo: UserRepository,
-  ) {}
+    @repository(UserRepository.name) private userRepo: UserRepository
+  ) { }
 
   @post('/login')
   async loginUser(@requestBody() user: User): Promise<User> {

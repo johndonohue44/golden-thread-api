@@ -4,26 +4,27 @@ import { Entity, property, model } from '@loopback/repository';
     name: "charity"
 })
 export class Charity extends Entity {
-
     @property({
         type: 'number',
-        id: true,
+        id: true
     })
     id?: number;
-    @property({
-        type: 'string',
-    })
-    charityname: number;
 
     @property({
         type: 'string',
-        required: true,
+        required: true
     })
-    charityemail: string;
+    name: string;
 
     @property({
         type: 'string',
-        required: true,
+        required: true
+    })
+    username: string;
+
+    @property({
+        type: 'string',
+        required: true
     })
     password: string;
 

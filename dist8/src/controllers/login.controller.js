@@ -16,7 +16,6 @@ const repository_1 = require("@loopback/repository");
 const rest_1 = require("@loopback/rest");
 const user_repository_1 = require("../repositories/user.repository");
 const user_1 = require("../models/user");
-const rest_2 = require("@loopback/rest");
 let LoginController = class LoginController {
     constructor(userRepo) {
         this.userRepo = userRepo;
@@ -24,7 +23,7 @@ let LoginController = class LoginController {
     async loginUser(user) {
         // Check that email and password are both supplied
         if (!user.email || !user.password) {
-            throw new rest_2.HttpErrors.Unauthorized('invalid credentials');
+            throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
         }
         // Check that email and password are valid
         let userExists = !!(await this.userRepo.count({
@@ -34,7 +33,7 @@ let LoginController = class LoginController {
             ],
         }));
         if (!userExists) {
-            throw new rest_2.HttpErrors.Unauthorized('invalid credentials');
+            throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
         }
         return await this.userRepo.findOne({
             where: {
@@ -54,7 +53,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], LoginController.prototype, "loginUser", null);
 LoginController = __decorate([
-    __param(0, repository_1.repository(user_repository_1.UserRepository)),
+    __param(0, repository_1.repository(user_repository_1.UserRepository.name)),
     __metadata("design:paramtypes", [user_repository_1.UserRepository])
 ], LoginController);
 exports.LoginController = LoginController;

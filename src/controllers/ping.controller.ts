@@ -17,6 +17,5 @@ export class PingController {
       url: this.req.url,
       headers: Object.assign({}, this.req.headers),
     };
-  }
-  
+  }  
 }

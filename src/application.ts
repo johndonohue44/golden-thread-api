@@ -13,7 +13,7 @@ import {
 } from '@loopback/repository';
 /* tslint:enable:no-unused-variable */
 
-export class GoldenThreadApiApplication extends BootMixin(
+export class GoldenApiApplication extends BootMixin(
   RepositoryMixin(RestApplication)
 ) {
   constructor(options?: ApplicationConfig) {
@@ -35,12 +35,12 @@ export class GoldenThreadApiApplication extends BootMixin(
 
     var dataSourceConfig = new juggler.DataSource({
       name: "db",
-      connector: 'loopback-connector-mysql',
+      connector: "loopback-connector-mysql",
       host: 'localhost',
       port: 3306,
       database: 'golden_thread',
       user: 'root',
-      password: 'Cancer1234321'
+      password: '3026266tb'
     });
     this.dataSource(dataSourceConfig);
   }
