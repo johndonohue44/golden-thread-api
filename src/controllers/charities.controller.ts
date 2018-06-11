@@ -6,11 +6,12 @@ import { post, get, requestBody, param, HttpErrors } from "@loopback/rest";
 import { User } from "../models/user";
 import { Charity } from "../models/charity";
 import { Project } from "../models/project";
+import { ProjectRepository } from "../repositories/project.repository";
 
 export class CharitiesController {
 
     constructor(
-        @repository(CharityRepository.name) private charityRepo: CharityRepository
+        @repository(CharityRepository.name) private charityRepo: CharityRepository, private projectRepo: ProjectRepository
     ) { }
 
     @get('/charities')
@@ -30,13 +31,9 @@ export class CharitiesController {
 
     @get('/charities/{id}/projects')
     async getAllCharityProjects(@param.path.number('id') id: number): Promise<Array<Project>> {
-        try {
-            
-        }
-        catch{
-            throw new HttpErrors.Unauthorized('charity does not exist');
-        }
+        return await this.projectRepo.find();
     }
+
 
     
     @get('/charities/{id}/projects/{id}')

@@ -12,9 +12,9 @@ export class PaymentMethod extends Entity {
     id?: number;
 
     @property({
-        type: 'Card',
+        type: 'string',
     })
-    card: Card;
+    card: number;
 
     // @property({
     //     type: 'PayPal',

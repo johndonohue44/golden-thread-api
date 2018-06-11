@@ -1,7 +1,12 @@
-import { UserRepository } from "../repositories/user.repository";
-import { User } from "../models/user";
-export declare class LoginController {
-    protected userRepo: UserRepository;
+import { UserRepository } from '../repositories/user.repository';
+import { User } from '../models/user';
+import { Login } from '../models/login';
+export declare class UserController {
+    private userRepo;
     constructor(userRepo: UserRepository);
-    loginUser(user: User): Promise<User>;
+    createUser(user: User): Promise<User>;
+    login(login: Login): Promise<any>;
+    loginWithQuery(login: Login): Promise<User>;
+    getAllUsers(): Promise<Array<User>>;
+    getUserById(id: number): Promise<User>;
 }

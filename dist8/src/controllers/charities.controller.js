@@ -16,9 +16,11 @@ const repository_1 = require("@loopback/repository");
 const charity_repository_1 = require("../repositories/charity.repository");
 const rest_1 = require("@loopback/rest");
 const project_1 = require("../models/project");
+const project_repository_1 = require("../repositories/project.repository");
 let CharitiesController = class CharitiesController {
-    constructor(charityRepo) {
+    constructor(charityRepo, projectRepo) {
         this.charityRepo = charityRepo;
+        this.projectRepo = projectRepo;
     }
     async getCharitiesList() {
         return await this.charityRepo.find();
@@ -31,7 +33,8 @@ let CharitiesController = class CharitiesController {
             throw new rest_1.HttpErrors.Unauthorized('charity does not exist');
         }
     }
-    async getAllCharityProjects() {
+    async getAllCharityProjects(id) {
+        return await this.projectRepo.find();
     }
     async getCharityProjectByID(id) {
         return new project_1.Project();
@@ -54,8 +57,9 @@ __decorate([
 ], CharitiesController.prototype, "getCharityByID", null);
 __decorate([
     rest_1.get('/charities/{id}/projects'),
+    __param(0, rest_1.param.path.number('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], CharitiesController.prototype, "getAllCharityProjects", null);
 __decorate([
@@ -73,7 +77,7 @@ __decorate([
 ], CharitiesController.prototype, "getCharityProjectPosts", null);
 CharitiesController = __decorate([
     __param(0, repository_1.repository(charity_repository_1.CharityRepository.name)),
-    __metadata("design:paramtypes", [charity_repository_1.CharityRepository])
+    __metadata("design:paramtypes", [charity_repository_1.CharityRepository, project_repository_1.ProjectRepository])
 ], CharitiesController);
 exports.CharitiesController = CharitiesController;
 //# sourceMappingURL=charities.controller.js.map

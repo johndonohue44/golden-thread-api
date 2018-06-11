@@ -16,45 +16,95 @@ const repository_1 = require("@loopback/repository");
 const rest_1 = require("@loopback/rest");
 const user_repository_1 = require("../repositories/user.repository");
 const user_1 = require("../models/user");
-let LoginController = class LoginController {
+const login_1 = require("../models/login");
+const jsonwebtoken_1 = require("jsonwebtoken");
+let UserController = class UserController {
     constructor(userRepo) {
         this.userRepo = userRepo;
     }
-    async loginUser(user) {
-        // Check that email and password are both supplied
-        if (!user.email || !user.password) {
-            throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
+    async createUser(user) {
+        return await this.userRepo.create(user);
+    }
+    async login(login) {
+        var users = await this.userRepo.find();
+        var email = login.email;
+        var password = login.password;
+        for (var i = 0; i < users.length; i++) {
+            var user = users[i];
+            if (user.email == email && user.password == password) {
+                var jwt = jsonwebtoken_1.sign({
+                    user: user,
+                }, 'shh', {
+                    issuer: 'auth.ix.co.za',
+                    audience: 'ix.co.za',
+                });
+                return {
+                    token: jwt,
+                };
+            }
         }
-        // Check that email and password are valid
-        let userExists = !!(await this.userRepo.count({
-            and: [
-                { email: user.email },
-                { password: user.password },
-            ],
-        }));
-        if (!userExists) {
-            throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
-        }
-        return await this.userRepo.findOne({
+        throw new rest_1.HttpErrors.NotFound('User not found, sorry!');
+    }
+    async loginWithQuery(login) {
+        var users = await this.userRepo.find({
             where: {
-                and: [
-                    { email: user.email },
-                    { password: user.password }
-                ],
+                and: [{ email: login.email }, { password: login.password }],
             },
         });
+        if (users.length == 0) {
+            throw new rest_1.HttpErrors.NotFound('User not found, sorry!');
+        }
+        return users[0];
+    }
+    async getAllUsers() {
+        return await this.userRepo.find();
+    }
+    async getUserById(id) {
+        try {
+            return await this.userRepo.findById(id);
+        }
+        catch (err) {
+            throw new rest_1.HttpErrors.NotFound('User not found, sorry!');
+        }
     }
 };
 __decorate([
-    rest_1.post('/login'),
+    rest_1.post('/registration'),
     __param(0, rest_1.requestBody()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_1.User]),
     __metadata("design:returntype", Promise)
-], LoginController.prototype, "loginUser", null);
-LoginController = __decorate([
+], UserController.prototype, "createUser", null);
+__decorate([
+    rest_1.post('/login'),
+    __param(0, rest_1.requestBody()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [login_1.Login]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "login", null);
+__decorate([
+    rest_1.post('/login-with-query'),
+    __param(0, rest_1.requestBody()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [login_1.Login]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "loginWithQuery", null);
+__decorate([
+    rest_1.get('/users'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getAllUsers", null);
+__decorate([
+    rest_1.get('/users/{id}'),
+    __param(0, rest_1.param.query.number('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUserById", null);
+UserController = __decorate([
     __param(0, repository_1.repository(user_repository_1.UserRepository.name)),
     __metadata("design:paramtypes", [user_repository_1.UserRepository])
-], LoginController);
-exports.LoginController = LoginController;
+], UserController);
+exports.UserController = UserController;
 //# sourceMappingURL=login.controller.js.map

@@ -3,7 +3,7 @@ import { UserRepository } from "../repositories/user.repository";
 import { post, get, requestBody, param, HttpErrors } from "@loopback/rest";
 import { User } from "../models/user";
 import { request } from "http";
-
+import { verify, sign } from 'jsonwebtoken';
 
 export class UsersController {
 
@@ -15,6 +15,8 @@ export class UsersController {
   async getAllUsers(): Promise<Array<User>> {
     return await this.userRepo.find();
   }
+
+  
 
 
   @get('/users/{id}')

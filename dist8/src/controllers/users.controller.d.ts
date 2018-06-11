@@ -1,9 +1,8 @@
-import { User } from "../models/user";
 import { UserRepository } from "../repositories/user.repository";
-export declare class UserController {
-    protected userRepo: UserRepository;
+import { User } from "../models/user";
+export declare class UsersController {
+    private userRepo;
     constructor(userRepo: UserRepository);
-    getDonationsByUserId(userId: number, dateFrom: Date, authorizationToken: String): Promise<void>;
-    findUsers(): Promise<User[]>;
-    findUsersById(id: number): Promise<User>;
+    getAllUsers(): Promise<Array<User>>;
+    getUserByID(id: number): Promise<User>;
 }
